@@ -1,6 +1,7 @@
 'use strict';
 const canvas = document.getElementById('renderCanvas'); // Get the canvas element
 const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+let animation = true;
 const createScene = function () {
   // Creates a basic Babylon Scene object
   const scene = new BABYLON.Scene(engine);
@@ -15,8 +16,8 @@ const createScene = function () {
     scene
   );
   // Lock the camera to the alpha axis
-  camera.lowerBetaLimit = Math.PI / 1.7;
-  camera.upperBetaLimit = Math.PI / 1.5;
+  //   camera.lowerBetaLimit = Math.PI / 1.7;
+  //   camera.upperBetaLimit = Math.PI / 1.5;
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true);
 
@@ -44,7 +45,9 @@ const createScene = function () {
   );
 
   engine.runRenderLoop(function () {
-    // Update camera position for animation
+    if (!animation) {
+      return;
+    }
     alpha += alphaDirection;
     beta += betaDirection;
 
@@ -71,4 +74,21 @@ engine.runRenderLoop(function () {
 // Watch for browser/canvas resize events
 window.addEventListener('resize', function () {
   engine.resize();
+});
+
+// Prevent scrolling when mouse is over canvas
+canvas.addEventListener(
+  'wheel',
+  function (event) {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+canvas.addEventListener('mouseover', function (event) {
+  animation = false;
+});
+
+canvas.addEventListener('mouseleave', function (event) {
+  animation = true;
 });
