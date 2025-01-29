@@ -21,6 +21,7 @@
     </style>
 
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
   </head>
 
   <body>
@@ -32,38 +33,29 @@
       const createScene = function () {
         // Creates a basic Babylon Scene object
         const scene = new BABYLON.Scene(engine);
+        scene.clearColor = BABYLON.Color3.Black();
         // Creates and positions a free camera
-        const camera = new BABYLON.FreeCamera(
+        const camera = new BABYLON.FollowCamera(
           'camera1',
-          new BABYLON.Vector3(0, 5, -10),
+          new BABYLON.Vector3(0, 2, -5),
           scene
         );
         // Targets the camera to scene origin
-        camera.setTarget(BABYLON.Vector3.Zero());
         // This attaches the camera to the canvas
         camera.attachControl(canvas, true);
-        // Creates a light, aiming 0,1,0 - to the sky
-        const light = new BABYLON.HemisphericLight(
-          'light',
-          new BABYLON.Vector3(0, 1, 0),
+
+        BABYLON.SceneLoader.ImportMeshAsync(
+          null,
+          './',
+          'oma.splat',
           scene
-        );
-        // Dim the light a small amount - 0 to 1
-        light.intensity = 0.7;
-        // Built-in 'sphere' shape.
-        const sphere = BABYLON.MeshBuilder.CreateSphere(
-          'sphere',
-          { diameter: 2, segments: 32 },
-          scene
-        );
-        // Move the sphere upward 1/2 its height
-        sphere.position.y = 1;
-        // Built-in 'ground' shape.
-        const ground = BABYLON.MeshBuilder.CreateGround(
-          'ground',
-          { width: 6, height: 6 },
-          scene
-        );
+        ).then((result) => {
+          const mesh = result.meshes[0];
+          mesh.position = new BABYLON.Vector3(0, 0, 0);
+          mesh.rotate(BABYLON.Vector3.Up(), Math.PI * 1.25);
+          camera.lockedTarget = mesh;
+        });
+
         return scene;
       };
       const scene = createScene(); //Call the createScene function
