@@ -11,10 +11,14 @@ const createScene = function () {
     'camera1',
     -2.5,
     Math.PI / 1.6,
-    5,
-    new BABYLON.Vector3(0.5, 0, 0.5),
+    3,
+    new BABYLON.Vector3(0.2, -0.5, 0.5),
     scene
   );
+
+  // Adjust camera wheel precision (zoom speed)
+  camera.wheelPrecision = 50; // Default is 3, higher value = slower zoom
+
   // Lock the camera to the alpha axis
   //   camera.lowerBetaLimit = Math.PI / 1.7;
   //   camera.upperBetaLimit = Math.PI / 1.5;
@@ -35,7 +39,7 @@ const createScene = function () {
   let alphaDirection = ALPHA_SPEED;
   let betaDirection = BETA_SPEED;
 
-  BABYLON.SceneLoader.ImportMeshAsync(null, './', 'uus.splat', scene).then(
+  BABYLON.SceneLoader.ImportMeshAsync(null, './', 'piha2.splat', scene).then(
     (result) => {
       const mesh = result.meshes[0];
       mesh.position = new BABYLON.Vector3(0, 0, 0);

@@ -1,0 +1,8 @@
+#renderCanvas {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    filter: saturate(0.4) contrast(1.1);
+    
+
+  }
