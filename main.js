@@ -39,7 +39,7 @@ const createScene = function () {
   let alphaDirection = ALPHA_SPEED;
   let betaDirection = BETA_SPEED;
 
-  BABYLON.SceneLoader.ImportMeshAsync(null, './', 'piha2.splat', scene).then(
+  BABYLON.SceneLoader.ImportMeshAsync(null, './', 'piha.splat', scene).then(
     (result) => {
       const mesh = result.meshes[0];
       mesh.position = new BABYLON.Vector3(0, 0, 0);
